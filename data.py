@@ -1,6 +1,7 @@
 import numpy as np
 import cv2
 import random
+import os
 
 def padding(x,y):
     h,w,c = x.shape
@@ -48,7 +49,7 @@ def getTrainGenerator(file_path, target_size, batch_size, israndom=False):
         batch_x = []
         batch_y = []
         for name in trainlist:
-            p = name.strip('\r\n').split(' ')
+            p = name.strip('\r\n').split(',')
             img_path = p[0]
             mask_path = p[1]
             x = cv2.imread(img_path)
@@ -79,3 +80,18 @@ def getTrainGenerator(file_path, target_size, batch_size, israndom=False):
                 yield (np.array(batch_x, dtype=np.float32), np.array(batch_y, dtype=np.float32))
                 batch_x = []
                 batch_y = []
+
+def ge_train_pair(filename, train_dir, image_dir, mask_dir):
+    f = open(filename,'w')
+    path = os.path.join(train_dir, image_dir)
+    name = os.listdir(path)
+    print(path, "\nhas {0} images.".format(len(name)))
+    for n in name:
+        if n[-4:] == '.jpg':
+            f.writelines([os.path.join(train_dir, image_dir, str(n)), ',',
+                             os.path.join(train_dir, mask_dir, str(n[:-4] + '.png')), '\n'])
+        else:
+            pass
+    f.close()
+
+

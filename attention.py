@@ -1,6 +1,7 @@
 import tensorflow as tf
-from keras.engine import Layer
-from keras.layers import *
+from tensorflow.python.keras import backend as K
+from tensorflow.python.keras.engine import Layer
+from tensorflow.python.keras.layers import *
 from bilinear_upsampling import BilinearUpsampling
 
 class BatchNorm(BatchNormalization):
@@ -61,3 +62,4 @@ def ChannelWiseAttention(inputs,name):
     attention = Repeat(repeat_list=[1, H, W, 1],name=name+'_repeat')(attention)
     attention = Multiply(name=name + '_multiply')([attention, inputs])
     return attention
+
