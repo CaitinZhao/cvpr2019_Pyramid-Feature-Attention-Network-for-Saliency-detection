@@ -1,6 +1,6 @@
 import tensorflow as tf
-from keras import backend as K
-from keras.backend.common import epsilon
+from tensorflow.python.keras import backend as K
+from tensorflow.python.keras.backend import epsilon
 
 def _to_tensor(x, dtype):
     return tf.convert_to_tensor(x, dtype=dtype)

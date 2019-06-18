@@ -1,9 +1,9 @@
-from keras import callbacks, optimizers
+from tensorflow.python.keras import callbacks, optimizers
 import tensorflow as tf
 import os
-from keras.layers import Input
+from tensorflow.python.keras.layers import Input
 from model import VGG16
-from data import getTrainGenerator
+from data import getTrainGenerator, ge_train_pair
 from utils import *
 from edge_hold_loss import *
 import math
@@ -25,16 +25,19 @@ if __name__ == '__main__':
     parser.add_argument('--model_weights',default='model/vgg16_no_top.h5',help='your model weights', type=str)
 
     args = parser.parse_args()
-    model_name = args.train_file
+    model_name = args.model_weights
+    train_path = args.train_file
+    HOME = os.path.expanduser('~')
+    train_folder = os.path.join(HOME, 'data/DUTS-TR')
+    ge_train_pair(train_path, train_folder, "DUTS-TR-Image", "DUTS-TR-Mask")
     '''
     the from of 'train_pair.txt' is 
-    img_path1 gt_path1\n
-    img_path2 gt_path2\n 
+    img_path1,gt_path1\n
+    img_path2,gt_path2\n 
     '''
-    train_path = args.model_weights
     
-    print "train_file", train_path
-    print "model_weights", model_name
+    print("train_file: ", train_path)
+    print("model_weights: ", model_name)
     
     target_size = (256,256)
     batch_size = 15
@@ -68,7 +71,7 @@ if __name__ == '__main__':
     model_input = Input(shape=(target_size[0],target_size[1],3))
     model = VGG16(model_input,dropout=dropout, with_CPFE=with_CPFE, with_CA=with_CA, with_SA=with_SA)
     for i,layer in enumerate(model.layers):
-        print i,layer.name
+        print(i,layer.name)
     model.load_weights(model_name,by_name=True)
 
     tb = callbacks.TensorBoard(log_dir=tb_log)
