@@ -1,2 +1,3 @@
 *.txt
 __pycache__
+tensorboard-logs/
