@@ -33,8 +33,8 @@ if __name__ == '__main__':
     '''
     train_path = args.model_weights
     
-    print "train_file", train_path
-    print "model_weights", model_name
+    print ("train_file", train_path)
+    print ("model_weights", model_name)
     
     target_size = (256,256)
     batch_size = 15
@@ -68,7 +68,7 @@ if __name__ == '__main__':
     model_input = Input(shape=(target_size[0],target_size[1],3))
     model = VGG16(model_input,dropout=dropout, with_CPFE=with_CPFE, with_CA=with_CA, with_SA=with_SA)
     for i,layer in enumerate(model.layers):
-        print i,layer.name
+        print (i,layer.name)
     model.load_weights(model_name,by_name=True)
 
     tb = callbacks.TensorBoard(log_dir=tb_log)
