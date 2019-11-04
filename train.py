@@ -27,18 +27,18 @@ if __name__ == '__main__':
     args = parser.parse_args()
     train_file = args.train_file
     '''
-    the from of 'train_pair.txt' is 
+    the from of 'train_pair.txt' is
     img_path1 gt_path1\n
-    img_path2 gt_path2\n 
+    img_path2 gt_path2\n
     '''
     model_weights = args.model_weights
 
-    if not os.path.exists(train_file):
-        raise Exception('train file does not exist at {}'.format(train_file))
-    
+    assert (not os.path.exists(train_file),
+        'train file does not exist at {}'.format(train_file))
+
     print ("train_file", train_file)
     print ("model_weights", model_weights)
-    
+
     target_size = (256,256)
     batch_size = 15
     base_lr = 1e-2
@@ -67,6 +67,7 @@ if __name__ == '__main__':
         raise ValueError('Image height and wight must be a multiple of 32')
 
     traingen = getTrainGenerator(train_file, target_size, batch_size, israndom=True)
+
 
     model_input = Input(shape=(target_size[0],target_size[1],3))
     model = VGG16(model_input,dropout=dropout, with_CPFE=with_CPFE, with_CA=with_CA, with_SA=with_SA)
