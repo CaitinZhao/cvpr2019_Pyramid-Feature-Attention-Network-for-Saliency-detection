@@ -25,23 +25,26 @@ if __name__ == '__main__':
     parser.add_argument('--model_weights',default='model/vgg16_no_top.h5',help='your model weights', type=str)
 
     args = parser.parse_args()
-    model_name = args.train_file
+    train_file = args.train_file
     '''
-    the from of 'train_pair.txt' is 
+    the from of 'train_pair.txt' is
     img_path1 gt_path1\n
-    img_path2 gt_path2\n 
+    img_path2 gt_path2\n
     '''
-    train_path = args.model_weights
-    
-    print "train_file", train_path
-    print "model_weights", model_name
-    
+    model_weights = args.model_weights
+
+    assert (not os.path.exists(train_file),
+        'train file does not exist at {}'.format(train_file))
+
+    print ("train_file", train_file)
+    print ("model_weights", model_weights)
+
     target_size = (256,256)
     batch_size = 15
     base_lr = 1e-2
     epochs = 50
 
-    f = open(train_path, 'r')
+    f = open(train_file, 'r')
     trainlist = f.readlines()
     f.close()
     steps_per_epoch = len(trainlist)/batch_size
@@ -63,13 +66,14 @@ if __name__ == '__main__':
     if target_size[0 ] % 32 != 0 or target_size[1] % 32 != 0:
         raise ValueError('Image height and wight must be a multiple of 32')
 
-    traingen = getTrainGenerator(train_path, target_size, batch_size, israndom=True)
+    traingen = getTrainGenerator(train_file, target_size, batch_size, israndom=True)
+
 
     model_input = Input(shape=(target_size[0],target_size[1],3))
     model = VGG16(model_input,dropout=dropout, with_CPFE=with_CPFE, with_CA=with_CA, with_SA=with_SA)
     for i,layer in enumerate(model.layers):
-        print i,layer.name
-    model.load_weights(model_name,by_name=True)
+        print (i,layer.name)
+    model.load_weights(model_weights,by_name=True)
 
     tb = callbacks.TensorBoard(log_dir=tb_log)
     lr_decay = callbacks.LearningRateScheduler(schedule=lr_scheduler)
