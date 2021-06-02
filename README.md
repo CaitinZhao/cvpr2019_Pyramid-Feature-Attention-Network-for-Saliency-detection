@@ -48,8 +48,12 @@ Install dependencies:
 ## train steps
 1.clone code
 
-2.将ground_truth_mask.zip和images.zip解压并复制前两个文件夹中的所有图片到ECSSD文件夹下；
+2.将下载的ECSSD文件的ground_truth_mask.zip和images.zip解压并复制前两个文件夹中的所有图片到ECSSD文件夹下；
 
 3.创建并运行generate_train_file.py， 生成数据集的 train_pair.txt.
 
 4.运行train.py
+
+更多可以参考
+[博客](https://blog.csdn.net/cough777/article/details/109078764?spm=1001.2014.3001.5501)
+
