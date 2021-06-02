@@ -45,3 +45,11 @@ Install dependencies:
     year = {2019}
 }
 ```
+## train steps
+1.clone code
+
+2.将ground_truth_mask.zip和images.zip解压并复制前两个文件夹中的所有图片到ECSSD文件夹下；
+
+3.创建并运行generate_train_file.py， 生成数据集的 train_pair.txt.
+
+4.运行train.py
