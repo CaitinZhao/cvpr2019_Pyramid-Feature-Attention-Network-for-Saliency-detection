@@ -1,0 +1,1 @@
+将ground_truth_mask.zip和images.zip解压并复制前两个文件夹中的所有图片到ECSSD文件夹下；ECSSD文件夹下就同时有同名的 .jpg 和 .png图片了。删除当前txt文件
